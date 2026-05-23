@@ -675,6 +675,13 @@
     #splash .album-mosaic { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(6, 1fr); }
 
     .footer { padding: 28px 16px; font-size: .78rem; }
+
+    .music-player-btn { bottom: 20px; right: 20px; }
+    .must-hear-item { flex-wrap: wrap; gap: 10px; }
+    .track-num { width: 32px; height: 32px; font-size: .9rem; }
+    .genre-sub-branches { gap: 6px; }
+    .genre-sub-branches .branch { font-size: .78rem; padding: 6px 12px; }
+    .info-chip { font-size: .8rem; padding: 5px 12px; }
   }
 
   /* ===== 响应式：小屏手机 (≤400px) ===== */
@@ -883,10 +890,43 @@
     .map-marker::after { font-size: .65rem; }
     .continent-label { font-size: .6rem; }
     .map-legend-item { font-size: .72rem; padding: 3px 8px; }
+    .compare-hero, .map-hero, .game-hero, .profile-hero { padding: 100px 16px 32px; }
+    .game-hero h2, .profile-hero h2, .compare-hero h2, .map-hero h2 { font-size: 1.5rem; }
+    .compare-vs { font-size: 1.2rem; }
   }
   @media (max-width: 400px) {
     .map-outer { padding-top: 80%; }
-    .compare-hero, .map-hero { padding: 92px 14px 32px; }
+    .compare-hero, .map-hero, .game-hero, .profile-hero { padding: 88px 12px 28px; }
+    .hero { padding: 92px 14px 36px; }
+    .hero h1 { font-size: 1.4rem; }
+    .section-title { font-size: 1.25rem; margin-bottom: 24px; }
+    .card { padding: 16px; border-radius: 12px; }
+    .card-icon { font-size: 1.8rem; }
+    .card h3 { font-size: 1.15rem; }
+    .card .intro { font-size: .82rem; }
+    .music-player-btn { bottom: 16px; right: 16px; width: 42px; height: 42px; font-size: 1.1rem; }
+    .music-player-btn .mp-tooltip { display: none; }
+    .genre-hero { padding: 88px 14px 40px; }
+    .genre-hero .genre-icon { font-size: 2.8rem; }
+    .genre-hero h2 { font-size: 1.5rem; }
+    .genre-content { padding: 0 12px 48px; }
+    .genre-info-card { padding: 16px; border-radius: 14px; }
+    .must-hear-item { flex-wrap: wrap; gap: 8px; }
+    .track-num { width: 30px; height: 30px; font-size: .85rem; }
+    #splash h1 { font-size: 1.6rem; }
+    #splash .splash-sub { font-size: .82rem; }
+    #splash .splash-btn { padding: 12px 32px; font-size: .9rem; }
+    #splash .album-mosaic { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
+    .timeline::before { left: 12px; }
+    .timeline-dot { left: 12px; width: 12px; height: 12px; }
+    .timeline-content { width: calc(100% - 32px); margin-left: 28px; padding: 12px 14px; }
+    .game-clue { padding: 16px 12px; font-size: .88rem; }
+    .game-option { padding: 12px 12px; font-size: .85rem; }
+    .profile-q-label { font-size: .88rem; }
+    .navbar .logo { font-size: .95rem; }
+    .subgenre-item { padding: 10px 12px; border-radius: 10px; }
+    .subgenre-name { font-size: .88rem; }
+    .subgenre-desc { font-size: .8rem; }
   }
 
   /* ===== 风格盲测 & 知识问答 共用 ===== */
@@ -1048,7 +1088,13 @@
     animation: crRipple .5s ease-out forwards;
   }
   @keyframes crRipple { to { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; opacity: 0; } }
-  @media (pointer: coarse) { .click-ripple { display: none !important; } }
+  @media (pointer: coarse) {
+    .click-ripple { display: none !important; }
+    a, button, .card, .nav-links a, .game-option, .profile-opt, .music-link, .subgenre-header {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+  }
 
   /* 2. 按钮 hover 波纹扩散 */
   .btn-ripple { position: relative; overflow: hidden; }
@@ -2755,10 +2801,11 @@ buildMapPage();
   }, true);
 })();
 
-// --- 3. 卡片 3D 倾斜 ---
+// --- 3. 卡片 3D 倾斜（触屏设备禁用）---
 (function card3DTilt() {
   var grid = document.getElementById('cardGrid');
   if (!grid) return;
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return; // 触屏设备跳过
   grid.classList.add('card-3d-grid');
 
   grid.addEventListener('mousemove', function(e) {
